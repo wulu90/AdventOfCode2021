@@ -282,6 +282,6 @@ void part2()
 }
 int main()
 {
-    //part1();
+    part1();
     part2();
 }
