@@ -6,43 +6,55 @@
 
 using namespace std;
 
-int main()
+void part1()
 {
     ifstream ifs{"input\\input-9"};
     vector<vector<int8_t>> heightmap;
 
-    int row = 0;
-    int col = 0;
-
     string line;
     char c;
+
+    getline(ifs, line);
+    int col = line.size();
+    vector<int8_t> all9(col + 2, 9);
+    heightmap.emplace_back(all9);
+
+    ifs.clear();
+    ifs.seekg(0);
     while (getline(ifs, line))
     {
-        col = line.size();
         istringstream iss{line};
         vector<int8_t> row_vec;
+        row_vec.emplace_back(9);
         while (iss >> c)
         {
             row_vec.emplace_back(c - '0');
         }
+        row_vec.emplace_back(9);
         heightmap.emplace_back(row_vec);
     }
 
+    int row = heightmap.size() - 1;
+
+    heightmap.emplace_back(all9);
+
+    // 99999999999999
+    // 9            9
+    // 9            9
+    // 9            9
+    // 9            9
+    // 9            9
+    // 99999999999999
+
     vector<int8_t> low_points;
-    for (int i = 0; i < heightmap.size(); i++)
+    for (int i = 1; i < row + 1; i++)
     {
-        for (int j = 0; j < col; j++)
+        for (int j = 1; j < col + 1; j++)
         {
-
-            char up_compare = 0;
-            char down_compare = 0;
-            char left_compare = 0;
-            char right_compare = 0;
-
-            up_compare = i == 0 ? 10 : heightmap[i - 1][j];
-            down_compare = i == heightmap.size() - 1 ? 10 : heightmap[i + 1][j];
-            left_compare = j == 0 ? 10 : heightmap[i][j - 1];
-            right_compare = j == col - 1 ? 10 : heightmap[i][j + 1];
+            char up_compare = heightmap[i - 1][j];
+            char down_compare = heightmap[i + 1][j];
+            char left_compare = heightmap[i][j - 1];
+            char right_compare = heightmap[i][j + 1];
 
             char height = heightmap[i][j];
             if (height < up_compare && height < down_compare && height < left_compare && height < right_compare)
@@ -59,4 +71,9 @@ int main()
     }
     risk_level += low_points.size();
     cout << risk_level << endl;
+}
+
+int main()
+{
+    part1();
 }
