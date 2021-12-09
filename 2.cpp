@@ -6,7 +6,7 @@ using namespace std;
 
 void part1()
 {
-    ifstream ifs{"input-2"};
+    ifstream ifs{"input\\input-2"};
     size_t horizon = 0;
     size_t depth = 0;
     string command;
@@ -34,7 +34,7 @@ void part1()
 
 void part2()
 {
-    ifstream ifs{"input-2"};
+    ifstream ifs{"input\\input-2"};
     size_t horizon = 0;
     size_t depth = 0;
     size_t aim = 0;
