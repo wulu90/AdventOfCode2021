@@ -29,6 +29,7 @@ void part1()
     {
         istringstream iss{line};
         vector<int8_t> row_vec;
+        row_vec.reserve(col + 2);
         row_vec.emplace_back(9);
         while (iss >> c)
         {
@@ -96,6 +97,7 @@ void part2()
     {
         istringstream iss{line};
         vector<int8_t> row_vec;
+        row_vec.reserve(col + 2);
         row_vec.emplace_back(9);
         while (iss >> c)
         {
