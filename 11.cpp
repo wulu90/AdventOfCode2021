@@ -8,7 +8,7 @@
 using namespace std;
 void part1()
 {
-    ifstream ifs{"input\\input-10"};
+    ifstream ifs{"input\\input-11"};
     string line;
     char c;
     vector<vector<int8_t>> energy_levels;
@@ -89,7 +89,7 @@ void part1()
 
 void part2()
 {
-    ifstream ifs{"input\\input-10"};
+    ifstream ifs{"input\\input-11"};
     string line;
     char c;
     vector<vector<int8_t>> energy_levels;
