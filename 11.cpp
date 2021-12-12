@@ -2,9 +2,8 @@
 #include <fstream>
 #include <vector>
 #include <string>
-#include <set>
 #include <deque>
-#include <cstdio>
+#include <array>
 
 using namespace std;
 void part1()
@@ -25,15 +24,15 @@ void part1()
     }
 
     int flash_count = 0;
-    int8_t flashed[10][10];
-    memset(flashed, 0, 100);
+    array<array<int8_t, 10>, 10> flashed;
+    flashed.fill({0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
 
     int8_t dir[8][2] = {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}}; // row,col
     deque<pair<int8_t, int8_t>> flash_coord;
 
     for (int step = 0; step < 100; step++)
     {
-        memset(flashed, 0, 100);
+        flashed.fill({0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
         flash_coord.clear();
 
         for (int i = 0; i < 10; i++)
@@ -106,8 +105,8 @@ void part2()
     }
 
     int flash_count = 0;
-    int8_t flashed[10][10];
-    memset(flashed, 0, 100);
+    array<array<int8_t, 10>, 10> flashed;
+    flashed.fill({0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
 
     int8_t dir[8][2] = {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}}; // row,col
     int8_t step_flash_count = 0;
@@ -116,7 +115,7 @@ void part2()
 
     while (true)
     {
-        memset(flashed, 0, 100);
+        flashed.fill({0, 0, 0, 0, 0, 0, 0, 0, 0, 0});
         flash_coord.clear();
         step_flash_count = 0;
         step += 1;
