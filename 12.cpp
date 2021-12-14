@@ -20,6 +20,147 @@ bool is_all_lowercase(const string &str)
     return true;
 }
 
+void part1_non_recursive(map<string, vector<string>> &map_table)
+{
+    deque<string> path;
+    deque<vector<string>> to_que;
+    set<string> has_visited;
+    int p_count = 0;
+    path.push_back("start");
+    to_que.push_back(map_table["start"]);
+
+    while (!path.empty())
+    {
+        has_visited.clear();
+        for (auto s : path)
+        {
+            has_visited.insert(s);
+        }
+        auto &to_vec = to_que.back();
+        if (!to_vec.empty())
+        {
+            auto to_str = to_vec[0];
+            if (is_all_lowercase(to_str))
+            {
+                if (has_visited.contains(to_str))
+                {
+                    to_vec.erase(to_vec.begin());
+                    continue;
+                }
+                else
+                {
+                    path.push_back(to_str);
+                    to_vec.erase(to_vec.begin());
+                    to_que.push_back(map_table[to_str]);
+                }
+            }
+            else
+            {
+                path.push_back(to_str);
+                to_vec.erase(to_vec.begin());
+                to_que.push_back(map_table[to_str]);
+            }
+        }
+        else
+        {
+            path.pop_back();
+            to_que.pop_back();
+            continue;
+        }
+
+        if (path.back() == "end")
+        {
+            p_count += 1;
+            path.pop_back();
+            to_que.pop_back();
+        }
+    }
+
+    cout << "non_recursive_part1:" << p_count << endl;
+}
+
+void part2_non_recursive(map<string, vector<string>> &map_table)
+{
+    deque<string> path;
+    deque<vector<string>> to_que;
+    map<string, int> has_visited;
+    int p_count = 0;
+    path.push_back("start");
+    to_que.push_back(map_table["start"]);
+
+    while (!path.empty())
+    {
+        has_visited.clear();
+        for (auto s : path)
+        {
+            if (is_all_lowercase(s))
+            {
+                has_visited[s] += 1;
+            }
+        }
+        auto &to_vec = to_que.back();
+        if (!to_vec.empty())
+        {
+            auto to_str = to_vec[0];
+            if (is_all_lowercase(to_str))
+            {
+                if (has_visited.contains(to_str))
+                {
+                    if (to_str == "start")
+                    {
+                        to_vec.erase(to_vec.begin());
+                        continue;
+                    }
+                    bool two_visit = false;
+                    for (auto [c, i] : has_visited)
+                    {
+                        if (i >= 2)
+                            two_visit = true;
+                    }
+                    if (two_visit)
+                    {
+                        to_vec.erase(to_vec.begin());
+                        continue;
+                    }
+                    else
+                    {
+                        path.push_back(to_str);
+                        to_vec.erase(to_vec.begin());
+                        to_que.push_back(map_table[to_str]);
+                    }
+                }
+                else
+                {
+                    path.push_back(to_str);
+                    to_vec.erase(to_vec.begin());
+                    to_que.push_back(map_table[to_str]);
+                }
+            }
+            else
+            {
+                path.push_back(to_str);
+                to_vec.erase(to_vec.begin());
+                to_que.push_back(map_table[to_str]);
+            }
+        }
+        else
+        {
+            path.pop_back();
+            to_que.pop_back();
+            continue;
+        }
+
+        if (path.back() == "end")
+        {
+            p_count += 1;
+            path.pop_back();
+            to_que.pop_back();
+        }
+    }
+
+    cout << "non_recursive_part2:" << p_count << endl;
+}
+
 void path_finder(string from, deque<string> path, map<string, vector<string>> &map_table, set<string> smalls, int &allcount)
 {
     if (from == "end")
@@ -143,6 +284,8 @@ int main()
     path_finder("start", path, adj_table, smalls, allcount);
     cout << allcount << endl;
 
+    part1_non_recursive(adj_table);
+    part2_non_recursive(adj_table);
     // recursive is work, but too slow
     int allcount2 = 0;
     map<string, int8_t> smalls_time;
