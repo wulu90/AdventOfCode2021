@@ -100,15 +100,6 @@ void djikstra_priority_queue(const vector<vector<int8_t>> &matrix)
         {
             cur = pqueue.top().second;
             pqueue.pop();
-            // int min = inf;
-            // for (int i = 0; i < v_num; i++)
-            // {
-            //     if (!visited[i] && dist[i] < min)
-            //     {
-            //         min = dist[i];
-            //         cur = i;
-            //     }
-            // }
         }
     }
 
