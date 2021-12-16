@@ -269,7 +269,7 @@ int main()
     {
         auto pos = line.find('-');
         auto s1 = line.substr(0, pos);
-        auto s2 = line.substr(pos + 1, line.size());
+        auto s2 = line.substr(pos + 1, line.size() - pos - 1);
         adj_table[s1].push_back(s2);
         adj_table[s2].push_back(s1);
     }

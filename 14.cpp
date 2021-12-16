@@ -25,7 +25,7 @@ void part1()
     {
         auto pos = line.find("->");
         auto s1 = line.substr(0, pos - 1);
-        auto s2 = line.substr(pos + 3, line.size());
+        auto s2 = line.substr(pos + 3, line.size() - pos - 3);
         insertion_rules[s1] = s2[0];
     }
 
@@ -78,7 +78,7 @@ void part2()
     {
         auto pos = line.find("->");
         auto s1 = line.substr(0, pos - 1);
-        auto s2 = line.substr(pos + 3, line.size());
+        auto s2 = line.substr(pos + 3, line.size() - pos - 3);
 
         insertion_rules[s1].push_back({s1[0], s2[0]});
         insertion_rules[s1].push_back({s2[0], s1[1]});

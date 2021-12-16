@@ -137,13 +137,13 @@ int main()
         {
             auto pos = line.find('=');
             auto c = line[pos - 1];
-            auto foldline = stoi(line.substr(pos + 1, line.size()));
+            auto foldline = stoi(line.substr(pos + 1, line.size() - pos - 1));
             folds.emplace_back(pair(c, foldline));
             continue;
         }
         auto pos = line.find(',');
         auto x = stoi(line.substr(0, pos));
-        auto y = stoi(line.substr(pos + 1, line.size()));
+        auto y = stoi(line.substr(pos + 1, line.size() - pos - 1));
         dots.emplace_back(pair(x, y));
         if (x > xmax)
         {
