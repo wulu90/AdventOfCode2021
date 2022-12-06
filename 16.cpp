@@ -1,4 +1,5 @@
 #include <fstream>
+#include <functional>
 #include <iostream>
 #include <map>
 #include <memory>
@@ -118,6 +119,38 @@ int sum_versions(std::unique_ptr<packet>& p) {
     }
 }
 
+std::function<int64_t(std::int64_t, int64_t)> get_func(int id) {
+    switch (id) {
+    case 0:
+        return std::plus<std::int64_t>();
+    case 1:
+        return std::multiplies<std::int64_t>();
+    case 2:
+        return [](std::int64_t lhs, std::int64_t rhs) { return std::min(lhs, rhs); };
+    case 3:
+        return [](std::int64_t lhs, std::int64_t rhs) { return std::max(lhs, rhs); };
+    case 5:
+        return std::greater<std::int64_t>();
+    case 6:
+        return std::less<std::int64_t>();
+    case 7:
+        return std::equal_to<std::int64_t>();
+    default:
+        return std::plus<std::int64_t>();
+    }
+}
+
+int64_t calc(std::unique_ptr<packet>& p) {
+    if (auto l = dynamic_cast<literal*>(p.get())) {
+        return l->value;
+    } else {
+        auto o   = dynamic_cast<op*>(p.get());
+        auto exp = get_func(o->id);
+        return std::accumulate(o->subpackets.begin() + 1, o->subpackets.end(), calc(o->subpackets.front()),
+                               [&](std::int64_t acc, std::unique_ptr<packet>& p) { return get_func(o->id)(acc, calc(p)); });
+    }
+}
+
 int main() {
     std::map<char, std::string> charmap{
 
@@ -139,4 +172,5 @@ int main() {
     auto pp = parse_packet(str, 0, plen);
 
     std::cout << sum_versions(pp) << std::endl;
+    std::cout << calc(pp) << std::endl;
 }
