@@ -224,5 +224,38 @@ int main() {
         }
     }
 
+    std::vector<Int3> scanners_vec(beacon_all.size());
+
+    // part2
+    // 按照路径从后往前，每次配对转换，都将后面的所有scanner坐标全部转换一次，依次从路径倒序转换到路径起点即0
+    std::vector<bool> has_tranfromed_scanners(beacon_all.size(), false);
+    for (auto path : paths) {
+        for (int i = path.size() - 2; i >= 0; i--) {
+            auto a  = path[i];
+            auto b  = path[i + 1];
+            auto tf = tran_map[{a, b}];
+            for (int j = i + 1; j < path.size(); j++) {
+                if (!has_tranfromed_scanners[path[j]])
+                    scanners_vec[path[j]] = transform(scanners_vec[path[j]], tf.first, tf.second);
+            }
+        }
+
+        for (auto i : path) {
+            has_tranfromed_scanners[i] = true;
+        }
+    }
+
+    int max = 0;
+    for (int i = 0; i < scanners_vec.size() - 1; i++) {
+        for (int j = i + 1; j < scanners_vec.size(); j++) {
+            auto tmp     = scanners_vec[i] - scanners_vec[j];
+            auto mandist = std::abs(tmp[0]) + std::abs(tmp[1]) + std::abs(tmp[2]);
+            if (mandist > max)
+                max = mandist;
+        }
+    }
+
     std::cout << distinct << std::endl;
+
+    std::cout << max << std::endl;
 }
