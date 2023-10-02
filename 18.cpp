@@ -175,9 +175,9 @@ void part1() {
 
     vector<string> finalnum = snailnums[0];
     for (int i = 1; i < snailnums.size(); i++) {
-        finalnum   = addition(finalnum, snailnums[i]);
-        auto befor = finalnum;
-        auto after = finalnum;
+        finalnum = addition(finalnum, snailnums[i]);
+        vector<string> befor;
+        vector<string> after;
         // for (auto& c : finalnum) {
         //     cout << c;
         // }
@@ -199,6 +199,65 @@ void part1() {
     cout << finalnum[0] << endl;
 }
 
+void part2() {
+    ifstream input("input/input-18");
+
+    string line;
+    vector<string> inp;
+    while (getline(input, line)) {
+        inp.push_back(line);
+    }
+
+    vector<vector<string>> snailnums;
+    for (auto& str : inp) {
+        vector<string> s;
+        for (auto& c : str) {
+            s.push_back({c});    // all input number is 0...9 no biger than 9
+        }
+        snailnums.push_back(s);
+    }
+
+    vector<int> all;
+    for (int i = 0; i < snailnums.size() - 1; i++) {
+        for (int j = i + 1; j < snailnums.size(); j++) {
+            auto temp = addition(snailnums[i], snailnums[j]);
+            vector<string> befor;
+            vector<string> after;
+
+            do {
+                befor = temp;
+                explode(temp);
+                split(temp);
+                after = temp;
+            } while (befor != after);
+
+            magnitude(temp);
+            all.push_back(stoi(temp[0]));
+        }
+    }
+
+    for (int i = 0; i < snailnums.size() - 1; i++) {
+        for (int j = i + 1; j < snailnums.size(); j++) {
+            auto temp = addition(snailnums[snailnums.size() - 1 - i], snailnums[snailnums.size() - 1 - j]);
+            vector<string> befor;
+            vector<string> after;
+
+            do {
+                befor = temp;
+                explode(temp);
+                split(temp);
+                after = temp;
+            } while (befor != after);
+
+            magnitude(temp);
+            all.push_back(stoi(temp[0]));
+        }
+    }
+
+    cout << *max_element(all.begin(), all.end()) << endl;
+}
+
 int main() {
     part1();
+    part2();
 }
